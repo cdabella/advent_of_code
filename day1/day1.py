@@ -8,4 +8,7 @@ with open('input.txt') as f:
     report = [int(x) for x in f.readlines()]
 
 pairs = combinations(report, num_entries)
-print(f'Answer: {sum([reduce(lambda a, b: a*b, entries) for entries in pairs if sum(entries) == 2020])}')
+answer = sum([reduce(lambda a, b: a*b, entries)
+              for entries in pairs
+              if sum(entries) == 2020])
+print(f'Answer: {answer}')

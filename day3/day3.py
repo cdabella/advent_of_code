@@ -17,7 +17,7 @@ with open ('input.txt') as f:
 
 for j, slope in enumerate(slopes):
     if forest[coords[j, 1], coords[j, 0]] == '#':
-        num_trees[i] += 1
+        num_trees[j] += 1
     coords[j] += slope
     coords[j, 0] = coords[j, 0] % forest.shape[1]
 

@@ -1,4 +1,3 @@
-
 with open ('input.txt') as f:
     all_group_answers = None
     any_group_answers = None
@@ -12,11 +11,12 @@ with open ('input.txt') as f:
             all_group_answers = None
             any_group_answers = None
         else:
+            line = line.strip()
             if all_group_answers is None:
-                any_group_answers = all_group_answers = set(line.strip())
+                any_group_answers = all_group_answers = set()
             else:
-                all_group_answers = all_group_answers & set(line.strip())
-                any_group_answers = any_group_answers.union(set(line.strip()))
+                all_group_answers = all_group_answers & set(line)
+                any_group_answers = any_group_answers.union(set(line))
 
     all_group_count.append(len(all_group_answers))
     any_group_count.append(len(any_group_answers))

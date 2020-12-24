@@ -67,7 +67,6 @@ def unroll_ll(cups, start_cup):
     out_cups = [start_cup]
     current_cup = cups[start_cup]['next']
     while current_cup != start_cup:
-        # print(out_cups)
         out_cups.append(current_cup)
         current_cup = cups[current_cup]['next']
     return out_cups

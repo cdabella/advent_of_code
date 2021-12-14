@@ -15,3 +15,6 @@ for depth in data:
     prev_depth = int(depth)
 
 submit(increase_counter - 1, part="a")
+
+window = 3
+

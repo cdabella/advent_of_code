@@ -26,14 +26,26 @@ epsilon = ~gamma & (2**num_bits-1)
 
 possible_ox = copy(lines)
 possible_c02 = copy(lines)
-for idx, c in enumerate(gamma_str):
+idx = 0
+ox_bit = gamma_str[idx]
+c02_bit = gamma_str[idx]
+while idx < num_bits:
     if len(possible_ox) > 1:
-        possible_ox = [r for r in possible_ox if r[idx] == c]
+        possible_ox = [r for r in possible_ox if r[idx] == ox_bit]
     if len(possible_c02) > 1:
-        possible_c02 = [r for r in possible_c02 if r[idx] != c]
-print(gamma_str)
-print(possible_ox[0])
-print(possible_c02[0])
+        possible_c02 = [r for r in possible_c02 if r[idx] != c02_bit]
+    idx += 1
+    if idx == num_bits:
+        break
+    counter = 0
+    for line in possible_ox:
+        counter += int(line[idx])
+    ox_bit = '0' if counter / len(possible_ox) < 0.5 else '1'
+    counter = 0
+    for line in possible_c02:
+        counter += int(line[idx])
+    c02_bit = '0' if counter / len(possible_c02) < 0.5 else '1'
+
 ox = int(possible_ox[0], 2)
 c02 = int(possible_c02[0], 2)
 # submit(ox * c02, part="b")

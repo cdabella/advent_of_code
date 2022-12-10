@@ -1,7 +1,5 @@
 # from aocd import submit
 # from aocd import numbers
-from functools import reduce
-from logging import info
 from aocd.models import Puzzle
 from aocd import submit
 from aocd import numbers

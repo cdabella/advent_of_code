@@ -1,5 +1,7 @@
 from aocd import data, lines, submit
 
+from typing import List, Tuple
+
 from collections import deque
 
 
@@ -27,10 +29,10 @@ class Monkey:
         self.items.append(item)
 
     def __repr__(self):
-        return f"Monkey {self.name} inspected items {self.items_inspected} times."
+        return f"Monkey {self.name} inspected items {self.items_inspected} times"
 
 
-def test_wrapper(divisor, true_monkey: Monkey, false_monkey: Monkey, scaling):
+def test_wrapper(divisor, true_monkey: Monkey, false_monkey: Monkey, scaling=1):
     def test(item):
         # item = item % (2 * 3 * 5 * 7 * 11 * 13 * 17 * 19)
         item = item % scaling
@@ -53,9 +55,8 @@ def parse_monkies(data, worry_loss=True):
         items = deque([int(x) for x in lines[1].split(": ")[1].split(", ")])
         op = eval(f"lambda old: {lines[2].split(' = ')[1]}")
         divisors.append(int(lines[3].split(" ")[-1]))
-        monkies.append(Monkey(str(idx), items, op, worry_loss))
+        monkies.append(Monkey(str(idx), items, op, worry_loss=worry_loss))
     scaling = 1
-    print(divisors)
     for d in divisors:
         scaling *= d
     # Add monkey tests
@@ -68,33 +69,43 @@ def parse_monkies(data, worry_loss=True):
     return monkies
 
 
-data = """Monkey 0:
-  Starting items: 79, 98
-  Operation: new = old * 19
-  Test: divisible by 23
-    If true: throw to monkey 2
-    If false: throw to monkey 3
+def print_items(monkies: List[Monkey]):
+    for monkey in monkies:
+        print(f"Monkey {monkey.name}: {monkey.items}")
 
-Monkey 1:
-  Starting items: 54, 65, 75, 74
-  Operation: new = old + 6
-  Test: divisible by 19
-    If true: throw to monkey 2
-    If false: throw to monkey 0
 
-Monkey 2:
-  Starting items: 79, 60, 97
-  Operation: new = old * old
-  Test: divisible by 13
-    If true: throw to monkey 1
-    If false: throw to monkey 3
+def print_monkies(monkies: List[Monkey]):
+    for monkey in monkies:
+        print(monkey)
 
-Monkey 3:
-  Starting items: 74
-  Operation: new = old + 3
-  Test: divisible by 17
-    If true: throw to monkey 0
-    If false: throw to monkey 1"""
+
+# data = """Monkey 0:
+#   Starting items: 79, 98
+#   Operation: new = old * 19
+#   Test: divisible by 23
+#     If true: throw to monkey 2
+#     If false: throw to monkey 3
+
+# Monkey 1:
+#   Starting items: 54, 65, 75, 74
+#   Operation: new = old + 6
+#   Test: divisible by 19
+#     If true: throw to monkey 2
+#     If false: throw to monkey 0
+
+# Monkey 2:
+#   Starting items: 79, 60, 97
+#   Operation: new = old * old
+#   Test: divisible by 13
+#     If true: throw to monkey 1
+#     If false: throw to monkey 3
+
+# Monkey 3:
+#   Starting items: 74
+#   Operation: new = old + 3
+#   Test: divisible by 17
+#     If true: throw to monkey 0
+#     If false: throw to monkey 1"""
 
 
 def pt1():
@@ -119,18 +130,16 @@ def pt1():
 
 
 def pt2():
-    rounds = 1
+    rounds = 10000
     monkies = parse_monkies(data, worry_loss=False)
+
     for round in range(rounds):
-        # if round == 0 or round % 1000 == 1:
-        #     # print(f"Round {round}")
-        #     # print("\n".join([str(m) for m in monkies]))
-        #     for m in monkies:
-        #         print(m)
-        #         print(m.items)
+        # if round == 20 or round % 1000 == 1:
+        #     print(f"{'#'*20} Round {round-1} {'#'*20}")
+        #     print_items(monkies)
+        #     print_monkies(monkies)
+        #     print()
         for monkey in monkies:
-            print(monkey)
-            print(monkey.items)
             monkey.round()
     sorted_monkies = sorted(monkies, key=lambda x: x.items_inspected, reverse=True)
 
@@ -139,6 +148,7 @@ def pt2():
     )
     print(sorted_monkies)
     print(monkey_business)
+    # submit(monkey_business)
 
 
 if __name__ == "__main__":

@@ -156,7 +156,6 @@ class QLearner:
             action = self.decide_action(state)
 
             next_state, reward = env.act(action, state)
-            # print(itr, state, action, next_state, reward, env.done)
 
             self.updateQ(state, action, next_state, reward)
             state = next_state
@@ -286,8 +285,6 @@ def pt1():
     )
     learner = ValueIteration(env, gamma=0.999)
     learner.learn(margin=0.1)
-    # print(f"Visited: {len(learner.q)}, unvisited: {env.total_states - len(learner.q)}")
-    # print(sorted(learner.q.items(), key=lambda x: x[1]))
 
     steps = learner.optimal_path()
     print(len(steps) - 1)
